@@ -4,7 +4,9 @@ This repo contains ALX SE Program Project 0x00. AirBnB clone - The console for t
 
 ## Getting Started
 
-> TODO
+> TODO: How to start it
+> TODO: How to use it
+> TODO: examples
 
 ## Contributing Guide
 
