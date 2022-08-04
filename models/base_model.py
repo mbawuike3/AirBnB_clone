@@ -3,6 +3,7 @@
 import uuid
 import datetime
 
+
 class BaseModel:
     """The BaseModel Class"""
     def __init__(self):
@@ -18,11 +19,21 @@ class BaseModel:
                                      self.__dict__)
 
     def save(self):
-        """ updates the public instance attribute updated_at with the current datetime """
+        """
+        updates the public instance attribute
+        updated_at with the current datetime
+        """
         self.updated_at = datetime.datetime.now()
 
     def to_dict(self):
-        """ returns a dictionary containing all keys/values of __dict__ of the instance """
+        """
+        returns a dictionary containing all keys/values of __dict__
+        of the instance
+        """
         dict_format = self.__dict__
         dict_format["__class__"] = self.__class__.__name__
+        dict_format["created_at"] = dict_format["created_at"]\
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_format["updated_at"] = dict_format["updated_at"]\
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")
         return dict_format
