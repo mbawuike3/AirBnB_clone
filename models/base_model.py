@@ -6,11 +6,29 @@ import datetime
 
 class BaseModel:
     """The BaseModel Class"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """The initializer for the BaseModel class"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+        """
+        {'id': '6c3e950d-1fa7-416e-83c4-189215c39282', 
+        'created_at': '2022-08-04T18:48:40.217062', 
+        'updated_at': '2022-08-04T18:48:40.217115', 
+        'name': 'My First Model', 'my_number': 89, '__class__': 'BaseModel'}
+        """
+        if kwargs:
+            if 'id' in kwargs:
+                self.id = kwargs['id']
+            if 'name' in kwargs:
+                self.name = kwargs['name']
+            if 'my_number' in kwargs:
+                self.my_number = kwargs['my_number']
+            if 'created_at' in kwargs:
+                self.created_at = datetime.datetime.fromisoformat(kwargs['created_at'])
+            if 'updated_at' in kwargs:
+                self.updated_at = datetime.datetime.fromisoformat(kwargs['updated_at'])
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
 
     def __str__(self):
         """the string representation of an object"""
