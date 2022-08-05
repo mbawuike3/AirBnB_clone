@@ -2,6 +2,7 @@
 """ Base Model class for the entities in the Airbnb Project """
 import uuid
 import datetime
+from models import storage
 
 
 class BaseModel:
@@ -29,6 +30,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """the string representation of an object"""
@@ -41,6 +43,7 @@ class BaseModel:
         updates the public instance attribute
         updated_at with the current datetime
         """
+        storage.save()
         self.updated_at = datetime.datetime.now()
 
     def to_dict(self):
