@@ -17,9 +17,11 @@ class BaseModel:
             if 'my_number' in kwargs:
                 self.my_number = kwargs['my_number']
             if 'created_at' in kwargs:
-                self.created_at = datetime.datetime.fromisoformat(kwargs['created_at'])
+                self.created_at = datetime.datetime\
+                    .fromisoformat(kwargs['created_at'])
             if 'updated_at' in kwargs:
-                self.updated_at = datetime.datetime.fromisoformat(kwargs['updated_at'])
+                self.updated_at = datetime.datetime\
+                    .fromisoformat(kwargs['updated_at'])
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
@@ -47,6 +49,8 @@ class BaseModel:
         """
         dict_format = self.__dict__.copy()
         dict_format["__class__"] = self.__class__.__name__
-        dict_format["created_at"] = dict_format["created_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
-        dict_format["updated_at"] = dict_format["updated_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_format["created_at"] = dict_format["created_at"]\
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_format["updated_at"] = dict_format["updated_at"]\
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")
         return dict_format
