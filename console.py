@@ -2,6 +2,7 @@
 """ The console module """
 import cmd
 from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -39,7 +40,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
 
-
     def do_show(self, line):
         """
          Prints the string representation of an
@@ -67,8 +67,6 @@ class HBNBCommand(cmd.Cmd):
         by adding or updating attribute (save the change into the JSON file).
         """
         pass
-
-
 
 
 if __name__ == '__main__':
