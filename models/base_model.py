@@ -9,12 +9,6 @@ class BaseModel:
     """The BaseModel Class"""
     def __init__(self, *args, **kwargs):
         """The initializer for the BaseModel class"""
-        """
-        {'id': '6c3e950d-1fa7-416e-83c4-189215c39282', 
-        'created_at': '2022-08-04T18:48:40.217062', 
-        'updated_at': '2022-08-04T18:48:40.217115', 
-        'name': 'My First Model', 'my_number': 89, '__class__': 'BaseModel'}
-        """
         if kwargs:
             if 'id' in kwargs:
                 self.id = kwargs['id']
@@ -43,18 +37,16 @@ class BaseModel:
         updates the public instance attribute
         updated_at with the current datetime
         """
-        storage.save()
         self.updated_at = datetime.datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
         returns a dictionary containing all keys/values of __dict__
         of the instance
         """
-        dict_format = self.__dict__
+        dict_format = self.__dict__.copy()
         dict_format["__class__"] = self.__class__.__name__
-        dict_format["created_at"] = dict_format["created_at"]\
-            .strftime("%Y-%m-%dT%H:%M:%S.%f")
-        dict_format["updated_at"] = dict_format["updated_at"]\
-            .strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_format["created_at"] = dict_format["created_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_format["updated_at"] = dict_format["updated_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
         return dict_format
