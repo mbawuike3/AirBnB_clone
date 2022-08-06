@@ -51,4 +51,3 @@ class FileStorage:
                     FileStorage.__objects = {}
                     for key, value in reload_dict.items():
                         FileStorage.__objects[key] = BaseModel(**value)
-
