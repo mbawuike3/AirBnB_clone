@@ -2,12 +2,12 @@
 """ Base Model class for the entities in the Airbnb Project """
 import uuid
 import datetime
-from models import storage
 
 
 class BaseModel:
     """The BaseModel Class"""
     def __init__(self, *args, **kwargs):
+        from models import storage
         """The initializer for the BaseModel class"""
         if kwargs:
             if 'id' in kwargs:
@@ -35,6 +35,7 @@ class BaseModel:
                                      self.__dict__)
 
     def save(self):
+        from models import storage
         """
         updates the public instance attribute
         updated_at with the current datetime
