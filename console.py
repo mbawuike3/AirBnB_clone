@@ -9,7 +9,7 @@ class HBNBCommand(cmd.Cmd):
     """ The console HBNB class """
     prompt = "(hbnb)"
 
-    __classes = ["basemodel"]
+    __classes = ["basemodel", "user"]
 
     def do_quit(self, line):
         """ Quit command to exit the program """
@@ -45,14 +45,59 @@ class HBNBCommand(cmd.Cmd):
          Prints the string representation of an
          instance based on the class name and id
         """
-        pass
+        if line:
+            className = None
+            instanceId = None
+            lines = line.split(" ")
+            if len(lines) == 2:
+                className = lines[0]
+                instanceId = lines[1]
+            elif len(lines) == 1:
+                className = lines[0]
+            if className.lower() in self.__classes:
+                if instanceId:
+                    objs = storage.all()
+                    key = "{}.{}".format(className, instanceId)
+                    if key in objs:
+                        print(objs[key])
+                    else:
+                        print("** no instance found **")
+                else:
+                    print("** instance id missing **")
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
 
     def do_destroy(self, line):
         """
         Deletes an instance based on the class name
         and id (save the change into the JSON file).
         """
-        pass
+        if line:
+            className = None
+            instanceId = None
+            lines = line.split(" ")
+            if len(lines) == 2:
+                className = lines[0]
+                instanceId = lines[1]
+            elif len(lines) == 1:
+                className = lines[0]
+            if className.lower() in self.__classes:
+                if instanceId:
+                    objs = storage.all()
+                    key = "{}.{}".format(className, instanceId)
+                    if key in objs:
+                        del objs[key]
+                        storage.save()
+                    else:
+                        print("** no instance found **")
+                else:
+                    print("** instance id missing **")
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
 
     def do_all(self, line):
         """
