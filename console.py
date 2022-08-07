@@ -104,12 +104,25 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all
         instances based or not on the class name.
         """
-        pass
+        objs = storage.all()
+        if line:
+            if line.lower() in self.__classes:
+                class_objs = {}
+                for i in objs:
+                    if i.startswith(line):
+                        class_objs[i] = objs[i]
+                for i in class_objs:
+                    print(class_objs[i])
+            else:
+                print("** class doesn't exist **")
+        else:
+            for i in objs:
+                print(objs[i])
 
     def do_update(self, line):
         """
         Updates an instance based on the class name and id
-        by adding or updating attribute (save the change into the JSON file).
+        by adding or updating attribute.
         """
         pass
 
