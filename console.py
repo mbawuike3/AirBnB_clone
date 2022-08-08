@@ -215,12 +215,17 @@ class HBNBCommand(cmd.Cmd):
         args = line.split(".")
         if len(args) == 2:
             class_name, function = args
-            function = function[:-2]
             if class_name.lower() in self.__classes:
-                if function == "all":
+                if function == "all()":
                     self.do_all(class_name)
-                if function == "count":
+                if function == "count()":
                     self.count(class_name)
+                if function.startswith("show"):
+                    function = function[5:-1]
+                    self.do_show(class_name + " " + function)
+                if function.startswith("destroy"):
+                    function = function[8:-1]
+                    self.do_destroy(class_name + " " + function)
         else:
             super().default(line)
 
