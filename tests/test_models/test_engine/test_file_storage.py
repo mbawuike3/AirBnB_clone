@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Tests for the file_storage api
-"""
+""" Module of Unittests """
 import unittest
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
@@ -10,8 +8,9 @@ import os
 import json
 
 
-class Test_FileStorage(unittest.TestCase):
-    """unittest class to test file storage"""
+class FileStorageTests(unittest.TestCase):
+    """ Suite of File Storage Tests """
+
     my_model = BaseModel()
 
     def testClassInstance(self):
@@ -88,5 +87,5 @@ class Test_FileStorage(unittest.TestCase):
             self.assertEqual(var1[key], new[key])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
