@@ -9,7 +9,7 @@ BASE_DIR = Path(os.getcwd()).resolve()
 
 class FileStorage:
     """ The file storage class """
-    __file_path = BASE_DIR / "file.json"
+    __file_path = str(BASE_DIR / "file.json")
     __objects = {}
 
     def __init__(self):
@@ -41,7 +41,7 @@ class FileStorage:
         (only if the JSON file (__file_path) exists;
         otherwise, do nothing.
         """
-        if FileStorage.__file_path.exists():
+        if Path(FileStorage.__file_path).exists():
             with open(FileStorage.__file_path, "r") as r:
                 reload_dict = json.load(r)
 
