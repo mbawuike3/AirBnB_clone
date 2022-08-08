@@ -47,6 +47,10 @@ class FileStorage:
 
                 if reload_dict:
                     from models.base_model import BaseModel
+                    from models.user import User
                     FileStorage.__objects = {}
                     for key, value in reload_dict.items():
-                        FileStorage.__objects[key] = BaseModel(**value)
+                        if key.startswith("BaseModel"):
+                            FileStorage.__objects[key] = BaseModel(**value)
+                        if key.startswith("User"):
+                            FileStorage.__objects[key] = User(**value)

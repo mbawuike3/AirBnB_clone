@@ -2,6 +2,7 @@
 """ The console module """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -33,6 +34,10 @@ class HBNBCommand(cmd.Cmd):
             if line.lower() in self.__classes:
                 if line.lower() == 'basemodel':
                     model = BaseModel()
+                    model.save()
+                    print(model.id)
+                if line.lower() == 'user':
+                    model = User()
                     model.save()
                     print(model.id)
             else:
