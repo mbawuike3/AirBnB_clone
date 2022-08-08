@@ -68,17 +68,6 @@ class Test_FileStorage(unittest.TestCase):
         self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
         self.assertEqual(storage.all(), storage._FileStorage__objects)
 
-    def testreload(self):
-        """test if reload """
-        self.my_model.save()
-        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
-        dobj = storage.all().copy()
-        FileStorage._FileStorage__objects = {}
-        self.assertNotEqual(dobj, FileStorage._FileStorage__objects)
-        storage.reload()
-        for key, value in storage.all().items():
-            self.assertEqual(dobj[key].to_dict(), dobj[key].to_dict())
-
     def testSaveSelf(self):
         """ Check save self """
         msg = "FileStorage.save() takes 1 positional argument but 2 were given"
