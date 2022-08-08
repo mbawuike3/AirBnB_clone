@@ -19,8 +19,12 @@ class TestUser(unittest.TestCase):
         u = User()
         self.assertIs(type(u.first_name), str)
         self.assertIs(type(u.last_name), str)
+        self.assertIs(type(u.email), str)
+        self.assertIs(type(u.password), str)
         self.assertTrue(u.first_name == "")
         self.assertTrue(u.last_name == "")
+        self.assertTrue(u.email == "")
+        self.assertTrue(u.password == "")
 
     def test_user_is_a_subclass_of_basemodel(self):
         u = User()
