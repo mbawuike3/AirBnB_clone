@@ -75,6 +75,17 @@ class FileStorageTests(unittest.TestCase):
 
         self.assertEqual(str(e.exception), msg)
 
+    def testreload(self):
+        """test if reload """
+        self.my_model.save()
+        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
+        dobj = storage.all()
+        FileStorage._FileStorage__objects = {}
+        self.assertNotEqual(dobj, FileStorage._FileStorage__objects)
+        storage.reload()
+        for key, value in storage.all().items():
+            self.assertEqual(dobj[key].to_dict(), value.to_dict())
+
     def test_save_FileStorage(self):
         """ Test if 'new' method is working good """
         var1 = self.my_model.to_dict()
