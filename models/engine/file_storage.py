@@ -34,6 +34,9 @@ class FileStorage:
 
             with open(FileStorage.__file_path, "w") as f:
                 json.dump(save_dict, f)
+        else:
+            with open(FileStorage.__file_path, "w") as f:
+                json.dump({}, f)
 
     def reload(self):
         """
@@ -43,7 +46,10 @@ class FileStorage:
         """
         if Path(FileStorage.__file_path).exists():
             with open(FileStorage.__file_path, "r") as r:
-                reload_dict = json.load(r)
+                try:
+                    reload_dict = json.load(r)
+                except:
+                    reload_dict = None
 
                 if reload_dict:
                     from models.base_model import BaseModel
