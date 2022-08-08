@@ -18,10 +18,10 @@ class BaseModel:
                 self.my_number = kwargs['my_number']
             if 'created_at' in kwargs:
                 self.created_at = datetime.datetime\
-                    .fromisoformat(kwargs['created_at'])
+                    .strptime(kwargs['created_at'], "%Y-%m-%dT%H:%M:%S.%f")
             if 'updated_at' in kwargs:
                 self.updated_at = datetime.datetime\
-                    .fromisoformat(kwargs['updated_at'])
+                    .strptime(kwargs['updated_at'], "%Y-%m-%dT%H:%M:%S.%f")
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
