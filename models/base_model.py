@@ -30,7 +30,7 @@ class BaseModel:
 
     def __str__(self):
         """the string representation of an object"""
-        return "[{}] ({}) {}".format(self.__class__.__name__,
+        return "[{}] ({}) {}".format(type(self).__name__,
                                      self.id,
                                      self.__dict__)
 
@@ -49,7 +49,7 @@ class BaseModel:
         of the instance
         """
         dict_format = self.__dict__.copy()
-        dict_format["__class__"] = self.__class__.__name__
+        dict_format["__class__"] = type(self).__name__
         dict_format["created_at"] = dict_format["created_at"]\
             .strftime("%Y-%m-%dT%H:%M:%S.%f")
         dict_format["updated_at"] = dict_format["updated_at"]\
