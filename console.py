@@ -123,8 +123,58 @@ class HBNBCommand(cmd.Cmd):
         """
         Updates an instance based on the class name and id
         by adding or updating attribute.
+        update <class name> <id> <attribute name> "<attribute value>"
         """
-        pass
+        if line:
+            className = None
+            instanceId = None
+            attribute_name = None
+            attribute_value = None
+            lines = line.split(" ")
+            if len(lines) == 4:
+                className, instanceId, attribute_name, attribute_value = lines
+                attribute_value = attribute_value[1:-1]
+            elif len(lines) == 3:
+                className, instanceId, attribute_name = lines
+            elif len(lines) == 2:
+                className, instanceId = lines
+            elif len(lines) == 1:
+                className = lines[0]
+            else:
+                print('update <class name> <id> <attribute name>'
+                      ' "<attribute value>"')
+                return False
+            if className.lower() in self.__classes:
+                if instanceId:
+                    objs = storage.all()
+                    key = "{}.{}".format(className, instanceId)
+                    if key in objs:
+                        if attribute_name and attribute_name \
+                                not in ["id", "created_at" "updated_at"]:
+                            if attribute_value:
+                                model = objs[key]
+                                if attribute_name in model.__dict__.keys():
+                                    attribute_type = type(model.__dict__
+                                                          [attribute_name])
+                                    model.__dict__[attribute_name] = \
+                                        attribute_type(attribute_value)
+                                    model.save()
+                                else:
+                                    model.__dict__[attribute_name] = \
+                                        attribute_value
+                                    model.save()
+                            else:
+                                print("** value missing **")
+                        else:
+                            print("** attribute name missing **")
+                    else:
+                        print("** no instance found **")
+                else:
+                    print("** instance id missing **")
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
 
 
 if __name__ == '__main__':

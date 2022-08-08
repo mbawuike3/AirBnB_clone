@@ -20,3 +20,7 @@ class TestCity(unittest.TestCase):
         for attr in self.attr_list:
             self.assertIs(type(getattr(self.city, attr)), str)
             self.assertFalse(bool(getattr(self.city, attr)))
+
+
+if __name__ == "__main__":
+    unittest.main()
