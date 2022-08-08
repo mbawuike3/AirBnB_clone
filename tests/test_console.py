@@ -1,66 +1,138 @@
 #!/usr/bin/python3
-"""
-Unit tests for console using Mock module from python standard library
-Checks console for capturing stdout into a StringIO object
-"""
-
-import os
-import sys
+"""Test Console Module"""
 import unittest
-from unittest.mock import create_autospec, patch
 from io import StringIO
-from console import HBNBCommand
-from models import storage
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+import sys
+import datetime
+from unittest.mock import patch
+import re
+import os
 
 
-class TestConsole(unittest.TestCase):
-    """
-    Unittest for the console model
-    """
+class Test_CommanConsole(unittest.TestCase):
+    """Test Console Module (console.py)"""
 
-    def setUp(self):
-        """Redirecting stdin and stdout"""
-        self.mock_stdin = create_autospec(sys.stdin)
-        self.mock_stdout = create_autospec(sys.stdout)
-        self.err = ["** class name missing **",
-                    "** class doesn't exist **",
-                    "** instance id missing **",
-                    "** no instance found **",
-                    ]
+    def do_quit(self, line):
+        """Quit command to exit the HBNB console"""
+        print("Thank you for using The Console")
+        return True
 
-        self.cls = ["BaseModel",
-                    "User",
-                    "State",
-                    "City",
-                    "Place",
-                    "Amenity",
-                    "Review"]
+    def do_EOF(self, line):
+        """Quit command to exit the program at end of file"""
+        print()
+        return True
 
-    def create(self, server=None):
+    def emptyline(self):
+        """Ingnore empty line"""
+        pass
+
+    def do_create(self, line):
+        from models.engine.file_storage import FileStorage
         """
-        Redirects stdin and stdout to the mock module
+        Creates a new instance of BaseModel, saves it
+        (to the JSON file) and prints the id.
         """
-        return HBNBCommand(stdin=self.mock_stdin, stdout=self.mock_stdout)
+        if not line:
+            print("** class name missing **")
+        elif line in class_check:
+            _input = line.split()
+            new_obj = class_check[_input[0]]()
+            new_obj.save()
+            storage.reload()
+            print(new_obj.id)
+        else:
+            print("** class doesn't exist **")
 
-    def last_write(self, nr=None):
-        """Returns last n output lines"""
-        if nr is None:
-            return self.mock_stdout.write.call_args[0][0]
-        return "".join(map(lambda c: c[0][0],
-                           self.mock_stdout.write.call_args_list[-nr:]))
+    def do_show(self, line):
+        from models.engine.file_storage import FileStorage
+        """
+        Prints the string representation of an instance
+        based on the class name and id
+        """
+        if line == "" or line is None:
+            print("** class name missing **")
+        else:
+            _input = line.split(' ')
+            if _input[0] not in class_check:
+                print("** class doesn't exist **")
+            elif len(_input) < 2:
+                print("** instance id missing **")
+            else:
+                key = "{}.{}".format(_input[0], _input[1])
+                if key not in storage.all():
+                    print("** no instance found **")
+                else:
+                    print(storage.all()[key])
 
-    def test_quit(self):
-        """Quit command"""
-        cli = self.create()
-        self.assertTrue(cli.onecmd("quit"))
+    def do_destroy(self, line):
+        from models.engine.file_storage import FileStorage
+        """
+        Deletes an instance based on the class name and id
+        (save the change into the JSON file)
+        """
+        if line == "" or line is None:
+            print("** class name missing **")
+        else:
+            _input = line.split(' ')
+            if _input[0] not in class_check():
+                print("** class doesn't exist **")
+            elif len(_input) < 2:
+                print("** instance id missing **")
+            else:
+                key = "{}.{}".format(_input[0], _input[1])
+                if key not in storage.all():
+                    print("** no instance found **")
+                else:
+                    del storage.all()[key]
+                    storage.save()
+
+    def do_all(self, usr_in):
+        from models.engine.file_storage import FileStorage
+        """Prints all instances based on a class name"""
+        if name:
+            if name in class_check:
+                for key, value in (storage.all()).items():
+                    if name in key:
+                        print(value)
+            else:
+                print("** class doesn't exist **")
+        else:
+            for value in storage.all().values():
+                print(value)
+
+    def do_update(self, line):
+        from models.engine.file_storage import FileStorage
+        """
+        Updates an instance based on the class name and id
+        by adding or updating attribute(save the change into the JSON file)
+        """
+        inpu = line.split()
+        if line == "" or line is None:
+            print("** class name missing **")
+        elif inpu[0] in self.class_list:
+            if len(inpu) < 2:
+                print("**instance id missing**")
+            elif len(inpu) < 3:
+                print("**attribute name missing**")
+            elif len(inpu) < 4:
+                print("**value missing**")
+            else:
+                key = "{}.{}".format(inpu[0], inpu[1])
+                if key in storage.all():
+                    if type(inpu[3]) is dict:
+                        storage.all()[key].setattr(inpu[2], inpu[3])
+                    objs[key].__setattr__(inpu[2], inpu[3])
+                    objs[key].save()
+                else:
+                    print("**no instance found**")
+        else:
+            print("**class doesn't exist**")
 
 
 if __name__ == '__main__':
-    unittest.main()
+    def __init__(self):
+        from console import HBNBCommand
+        class_check = {"Amenity", "BaseModel", "City", "Place",
+                       "Review", "State", "User"}
+
+        HBNBCommand().cmdloop()
