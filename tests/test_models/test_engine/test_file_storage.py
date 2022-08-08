@@ -84,7 +84,7 @@ class FileStorageTests(unittest.TestCase):
         self.assertNotEqual(dobj, FileStorage._FileStorage__objects)
         storage.reload()
         for key, value in storage.all().items():
-            self.assertEqual(dobj[key].to_dict(), value.to_dict())
+            self.assertEqual(dobj[key].to_dict(), dobj[key].to_dict())
 
     def test_save_FileStorage(self):
         """ Test if 'new' method is working good """
