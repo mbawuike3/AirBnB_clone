@@ -48,9 +48,24 @@ class FileStorage:
                 if reload_dict:
                     from models.base_model import BaseModel
                     from models.user import User
+                    from models.state import State
+                    from models.city import City
+                    from models.place import Place
+                    from models.review import Review
+                    from models.amenity import Amenity
                     FileStorage.__objects = {}
                     for key, value in reload_dict.items():
                         if key.startswith("BaseModel"):
                             FileStorage.__objects[key] = BaseModel(**value)
                         if key.startswith("User"):
                             FileStorage.__objects[key] = User(**value)
+                        if key.startswith("State"):
+                            FileStorage.__objects[key] = State(**value)
+                        if key.startswith("City"):
+                            FileStorage.__objects[key] = City(**value)
+                        if key.startswith("Place"):
+                            FileStorage.__objects[key] = Place(**value)
+                        if key.startswith("Review"):
+                            FileStorage.__objects[key] = Review(**value)
+                        if key.startswith("Amenity"):
+                            FileStorage.__objects[key] = Amenity(**value)
