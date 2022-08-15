@@ -25,6 +25,10 @@ section.filters button:hover{
     opacity: .9;
 }
 
+section.filters div{
+    z-index: 11;
+}
+
 section.filters .locations{
     border-right: 1px solid #CCCCCC;
 }
